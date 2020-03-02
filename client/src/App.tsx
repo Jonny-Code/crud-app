@@ -37,7 +37,7 @@ const App: React.FC = () => {
 
         {docs.length ? <Documents /> : <DocumentPlaceholder />}
 
-        <DocumentForm />
+        <DocumentForm kind="create" />
       </div>
     </AppContext.Provider>
   );

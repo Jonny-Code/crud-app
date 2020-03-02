@@ -1,13 +1,11 @@
 import React, { useEffect, useState } from "react";
-import { PlaceholderQuotes } from "./PlaceholderQuotes";
+import { Quotes } from "./Quotes";
 import "../App.css";
 
 export const DocumentPlaceholder: React.FC = () => {
   const [quote, setQuote] = useState({ person: "", quote: "" });
   useEffect(() => {
-    setQuote(
-      PlaceholderQuotes[Math.floor(Math.random() * PlaceholderQuotes.length)]
-    );
+    setQuote(Quotes[Math.floor(Math.random() * Quotes.length)]);
   }, []);
 
   return (

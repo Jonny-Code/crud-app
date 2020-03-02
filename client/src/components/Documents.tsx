@@ -2,6 +2,13 @@ import React, { useContext, useState } from "react";
 import { AppContext } from "../contexts/AppContext";
 import "../App.css";
 
+interface Doc {
+  title: string;
+  body: string;
+  createdAt: string;
+  _id: string;
+}
+
 export const Documents: React.FC = () => {
   const [form, setForm] = useState({
     title: "",
@@ -16,7 +23,9 @@ export const Documents: React.FC = () => {
     const r = await res.json();
     r.success ? dispatch({ type: "remove", _id: str }) : console.error(r.error);
   };
-  const updateField = (e: any) => {
+  const updateField = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
     setForm({
       ...form,
       [e.target.name]: e.target.value
@@ -26,7 +35,7 @@ export const Documents: React.FC = () => {
   return (
     <div className="container text-center">
       <div className="row d-flex justify-content-center">
-        {docs.map((d: any, x: number) => (
+        {docs.map((d: Doc, x: number) => (
           <div
             style={{ width: "20rem" }}
             key={x}
@@ -120,7 +129,7 @@ export const Documents: React.FC = () => {
             </div>
 
             <p className="ellipsis-body lead text-white mt-3">{d.body}</p>
-            <small className="text-light">{d.createdAt}</small>
+            <small className="text-light mt-auto">{d.createdAt}</small>
           </div>
         ))}
       </div>

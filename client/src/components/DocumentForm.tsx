@@ -1,8 +1,13 @@
 import React, { useState, useContext, useRef } from "react";
 import { AppContext } from "../contexts/AppContext";
-import { PlaceholderQuotes } from "./PlaceholderQuotes";
+import { Quotes } from "./Quotes";
+import { FetchPost } from "../util/FetchPost";
 
-export const DocumentForm = () => {
+interface Props {
+  kind: string;
+}
+
+export const DocumentForm: React.FC<Props> = ({ kind }) => {
   const [form, setForm] = useState({
     title: "",
     body: ""
@@ -10,39 +15,27 @@ export const DocumentForm = () => {
   const { dispatch } = useContext(AppContext);
   const formEl = useRef<HTMLFormElement>(null);
 
-  const updateField = (e: any) => {
+  const updateField = (
+    e: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>
+  ) => {
     setForm({
       ...form,
       [e.target.name]: e.target.value
     });
   };
 
-  const handleSave = async (e: any) => {
+  const handleSave = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
     formEl.current?.reset();
-    console.log();
     let d = { ...form, createdAt: new Date().toUTCString() };
-    const res = await fetch("http://localhost:1337/api/v1/documents", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify(d)
-    });
-    const r = await res.json();
-    r.success
-      ? dispatch({ type: "add", docs: r.data })
-      : console.error(r.error);
+    FetchPost(d, dispatch);
   };
-  const handleGenerate = (e: any) => {
+
+  const handleGenerate = async (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
-    let { person, quote } = PlaceholderQuotes[
-      Math.floor(Math.random() * PlaceholderQuotes.length)
-    ];
-    dispatch({
-      type: "add",
-      docs: { title: person, body: quote, createdAt: new Date().toUTCString() }
-    });
+    let { person, quote } = Quotes[Math.floor(Math.random() * Quotes.length)];
+    let d = { title: person, body: quote, createdAt: new Date().toUTCString() };
+    FetchPost(d, dispatch);
   };
 
   return (

@@ -1,4 +1,4 @@
-export const PlaceholderQuotes = [
+export const Quotes = [
   { person: "Khalifatul Masih III", quote: "Love For All, Hatred For None." },
   { person: "Amy Poehler", quote: "Change the world by being yourself." },
   { person: "T.S Eliot", quote: "Every moment is a fresh beginning." },
