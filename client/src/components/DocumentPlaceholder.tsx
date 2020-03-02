@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { PlaceholderQuotes } from "./PlaceholderQuotes";
+import "../App.css";
 
 export const DocumentPlaceholder: React.FC = () => {
   const [quote, setQuote] = useState({ person: "", quote: "" });
@@ -18,9 +19,14 @@ export const DocumentPlaceholder: React.FC = () => {
             className="card m-2 px-2 py-3 bg-dark border-secondary"
           >
             <div className="d-flex justify-content-between">
-              <div className="col">{""}</div>
-              <div className="col h4 p-1 m-0 text-secondary">
-                {quote.person}
+              <div
+                style={{ cursor: "pointer" }}
+                className="col text-left text-muted font-weight-bold"
+              >
+                . . .
+              </div>
+              <div className="col d-flex justify-content-center align-items-center text-white">
+                <h6 className="m-0 text-muted">{quote.person}</h6>
               </div>
               <div className="col text-right">
                 <button className="btn btn-outline-secondary font-weight-bold py-1 px-2">

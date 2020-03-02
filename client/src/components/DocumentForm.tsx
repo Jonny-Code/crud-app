@@ -1,4 +1,4 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useRef } from "react";
 import { AppContext } from "../contexts/AppContext";
 import { PlaceholderQuotes } from "./PlaceholderQuotes";
 
@@ -8,6 +8,7 @@ export const DocumentForm = () => {
     body: ""
   });
   const { dispatch } = useContext(AppContext);
+  const formEl = useRef<HTMLFormElement>(null);
 
   const updateField = (e: any) => {
     setForm({
@@ -18,6 +19,8 @@ export const DocumentForm = () => {
 
   const handleSave = async (e: any) => {
     e.preventDefault();
+    formEl.current?.reset();
+    console.log();
     let d = { ...form, createdAt: new Date().toUTCString() };
     const res = await fetch("http://localhost:1337/api/v1/documents", {
       method: "POST",
@@ -27,11 +30,9 @@ export const DocumentForm = () => {
       body: JSON.stringify(d)
     });
     const r = await res.json();
-    dispatch({
-      type: "add",
-      docs: r.data
-    });
-    console.log(r);
+    r.success
+      ? dispatch({ type: "add", docs: r.data })
+      : console.error(r.error);
   };
   const handleGenerate = (e: any) => {
     e.preventDefault();
@@ -48,7 +49,7 @@ export const DocumentForm = () => {
     <>
       <div className="container mt-5 p-3 bg-dark">
         <h2 className="text-white">Create Documents</h2>
-        <form>
+        <form ref={formEl}>
           <input
             className="form-control mt-2 mb-2"
             placeholder="title"

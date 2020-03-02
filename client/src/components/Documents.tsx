@@ -1,7 +1,12 @@
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import { AppContext } from "../contexts/AppContext";
+import "../App.css";
 
 export const Documents: React.FC = () => {
+  const [form, setForm] = useState({
+    title: "",
+    body: ""
+  });
   const { docs, dispatch } = useContext(AppContext);
 
   const handleDelete = async (str: string) => {
@@ -9,8 +14,13 @@ export const Documents: React.FC = () => {
       method: "DELETE"
     });
     const r = await res.json();
-    console.log(r);
     r.success ? dispatch({ type: "remove", _id: str }) : console.error(r.error);
+  };
+  const updateField = (e: any) => {
+    setForm({
+      ...form,
+      [e.target.name]: e.target.value
+    });
   };
 
   return (
@@ -20,7 +30,7 @@ export const Documents: React.FC = () => {
           <div
             style={{ width: "20rem" }}
             key={x}
-            className="card m-2 px-2 py-3 bg-dark border-secondary shadow-lg"
+            className="card m-2 px-2 py-3 bg-dark border-muted shadow-lg"
           >
             <div className="d-flex justify-content-between">
               <div
@@ -45,12 +55,12 @@ export const Documents: React.FC = () => {
                     <div className="d-flex justify-content-center modal-header border-secondary">
                       <div className="col">{""}</div>
                       <div className="col">
-                        <h5
+                        <h6
                           className="modal-title text-white"
                           id="exampleModalLabel"
                         >
                           {d.title}
-                        </h5>
+                        </h6>
                       </div>
                       <div className="col">
                         <button
@@ -74,14 +84,14 @@ export const Documents: React.FC = () => {
                           className="form-control mt-2 mb-2"
                           placeholder="title"
                           name="title"
-                          // onChange={updateField}
+                          onChange={updateField}
                         />
                         <textarea
                           placeholder="this is where you write the body..."
                           style={{ height: "8rem" }}
                           className="form-control mt-2 mb-2"
                           name="body"
-                          // onChange={updateField}
+                          onChange={updateField}
                         ></textarea>
                       </form>
                     </div>
@@ -94,7 +104,9 @@ export const Documents: React.FC = () => {
                   </div>
                 </div>
               </div>
-              <div className="col h4 p-1 m-0 text-white">{d.title}</div>
+              <div className="col d-flex justify-content-center align-items-center text-white">
+                <h6 className="m-0">{d.title}</h6>
+              </div>
               <div className="col text-right">
                 <button
                   onClick={(e: React.MouseEvent<HTMLButtonElement>) => {
@@ -107,7 +119,7 @@ export const Documents: React.FC = () => {
               </div>
             </div>
 
-            <p className="lead text-white">{d.body}</p>
+            <p className="ellipsis-body lead text-white mt-3">{d.body}</p>
             <small className="text-light">{d.createdAt}</small>
           </div>
         ))}

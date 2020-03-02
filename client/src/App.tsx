@@ -27,8 +27,6 @@ const App: React.FC = () => {
   const fetchDocs = async () => {
     const res = await fetch("http://localhost:1337/api/v1/documents");
     const { data } = await res.json();
-    console.log(data);
-
     dispatch({ type: "spread", docs: data });
   };
 
