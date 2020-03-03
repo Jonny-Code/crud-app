@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Quotes } from "./Quotes";
+import { getTimeCreated } from "../util/Dates";
 import "../App.css";
 
 export const DocumentPlaceholder: React.FC = () => {
@@ -34,7 +35,7 @@ export const DocumentPlaceholder: React.FC = () => {
             </div>
 
             <p className="lead text-secondary">{quote.quote}</p>
-            <small className="text-muted">{new Date().toUTCString()}</small>
+            <small className="text-muted">{getTimeCreated()}</small>
           </div>
         </div>
       </div>

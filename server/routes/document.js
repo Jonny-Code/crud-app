@@ -9,12 +9,10 @@ const {
 
 router
   .route("/")
+  .put(updateDocument)
   .get(getDocument)
   .post(addDocument);
 
-router
-  .route("/:id")
-  .delete(deleteDocument)
-  .put(updateDocument);
+router.route("/:id").delete(deleteDocument);
 
 module.exports = router;

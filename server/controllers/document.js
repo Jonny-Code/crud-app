@@ -48,7 +48,7 @@ exports.addDocument = async (req, res, next) => {
 
 exports.updateDocument = async (req, res, next) => {
   Document.findByIdAndUpdate(
-    req.params._id,
+    req.body._id,
     { title: req.body.title, body: req.body.body },
     (err, info) => {
       if (err) next(err);

@@ -1,34 +1,15 @@
 import React, { useReducer, useEffect } from "react";
-import { AppContext } from "./contexts/AppContext";
-import { DocumentForm } from "./components/DocumentForm";
+import { AppContext, reducer } from "./contexts/AppContext";
+import { CreateForm } from "./components/CreateForm";
 import { Documents } from "./components/Documents";
 import { DocumentPlaceholder } from "./components/DocumentPlaceholder";
-
-function reducer(state: any, payload: any) {
-  switch (payload.type) {
-    case "add":
-      return [...state, payload.docs];
-    case "spread":
-      return [...state, ...payload.docs];
-    case "remove":
-      return state.filter((i: any) => i._id !== payload._id);
-
-    default:
-      return [];
-  }
-}
+import { FetchGet } from "./util/Fetch";
 
 const App: React.FC = () => {
   const [docs, dispatch] = useReducer(reducer, []);
   useEffect(() => {
-    fetchDocs();
+    FetchGet(dispatch);
   }, []);
-
-  const fetchDocs = async () => {
-    const res = await fetch("http://localhost:1337/api/v1/documents");
-    const { data } = await res.json();
-    dispatch({ type: "spread", docs: data });
-  };
 
   return (
     <AppContext.Provider value={{ docs, dispatch }}>
@@ -37,7 +18,10 @@ const App: React.FC = () => {
 
         {docs.length ? <Documents /> : <DocumentPlaceholder />}
 
-        <DocumentForm kind="create" />
+        <div className="container mt-5 p-3 bg-dark">
+          <h2 className="text-white">Create Documents</h2>
+          <CreateForm />
+        </div>
       </div>
     </AppContext.Provider>
   );
